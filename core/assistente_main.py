@@ -17,6 +17,8 @@ from core.voice_assistant import VoiceAssistant
 from core.utils import notify_tts
 from core import memory_manager
 from core import auto_updater
+from core.secrets_manager import get_mt5_credentials
+from core.mt5_trader import MT5Trader
 
 class JarvisMainAssistant:
     def __init__(self):
@@ -24,9 +26,25 @@ class JarvisMainAssistant:
         self.running = False
         self.listening_thread = None
         self.update_thread = None
+        
+        # Inicialização do módulo de trading MT5
+        self.mt5_credentials = get_mt5_credentials()
+        self.trader = None
+        if self.mt5_credentials:
+            self.trader = MT5Trader()
+            memory_manager.log_activity("Módulo MT5Trader inicializado. Credenciais carregadas.")
+        else:
+            memory_manager.log_activity("AVISO: Credenciais MT5 não configuradas. Funcionalidades de trading desativadas.")
 
     def start(self):
         memory_manager.log_activity("Iniciando J.A.R.V.I.S Main Assistant...")
+        
+        # Conectar ao MT5 se as credenciais estiverem disponíveis
+        if self.trader:
+            if self.trader.connect():
+                memory_manager.log_activity("Conexão MT5 estabelecida com sucesso.")
+            else:
+                memory_manager.log_activity("ERRO: Falha na conexão MT5. Verifique as credenciais.")
         notify_tts("J.A.R.V.I.S ativado. Estou pronto.")
         self.running = True
         
@@ -49,6 +67,10 @@ class JarvisMainAssistant:
 
     def stop(self):
         memory_manager.log_activity("Parando J.A.R.V.I.S Main Assistant...")
+        
+        # Desconectar do MT5
+        if self.trader:
+            self.trader.disconnect()
         notify_tts("Desativando J.A.R.V.I.S. Até logo!")
         self.running = False
         self.voice_assistant.stop_listening_loop() # Sinaliza para a thread de escuta parar
