@@ -1,0 +1,15 @@
+streamlit
+flask
+gTTS
+huggingface-hub
+virtualenv
+pyttsx3
+vosk
+opencv-python
+scikit-learn
+scipy
+numpy
+pandas
+requests
+beautifulsoup4
+

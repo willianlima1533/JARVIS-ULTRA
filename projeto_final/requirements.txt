@@ -1,0 +1,9 @@
+streamlit
+huggingface-hub
+virtualenv
+gTTS
+pyttsx3
+vosk
+pyaudio
+flask
+
