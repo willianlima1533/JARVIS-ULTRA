@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/home/JARVIS-ULTRA/projeto_final/core/assistente_main.py", line 2, in <module>
+    from fastapi import FastAPI
+ModuleNotFoundError: No module named 'fastapi'
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/home/JARVIS-ULTRA/projeto_final/core/assistente_main.py", line 2, in <module>
+    from fastapi import FastAPI
+ModuleNotFoundError: No module named 'fastapi'
